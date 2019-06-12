@@ -1,0 +1,64 @@
+﻿@model List<MovieAPIProjectV2.Models.MovieDisplayContent>
+@{
+                /**/
+
+                ViewBag.Title = "Search the Movie Database!";
+}
+
+
+<div class="movieBoxWrapper">
+    <div class="movieBox">
+        @if(ViewBag.Grant != null)
+        {
+            <img src="@ViewBag.Grant" />
+        }
+        <h2>@ViewBag.Title</h2>
+        <div id="searchBar">
+            <form action="../Search/SearchDatabase" method="post">
+                <input type="text" name="searchQuery" placeholder="Title: " required />
+                <input type="text" name="searchYear" placeholder="Year: " pattern="[0-9]{4}" title="Please enter a 4 digit year - i.e. 1999" />
+                <input type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
+</div>
+
+        @if (Model != null)
+        {
+            foreach (var m in Model)
+            {
+                //This if statement is to smooth out the data
+                //from a bug in the API
+                if (m.Title != null)
+                {
+                    <div class="movieBoxWrapper">
+                        <div class="movieBox">
+                            <hr style="clear:both" />
+                            @if (m.Poster != "N/A")
+                            {
+                                <img style="display:inline-block;float:left;padding-right:15px;" src="@m.Poster" />
+                            }
+                            <h3>@m.Title</h3>
+                            <p>@m.Year @((m.Rated != "N/A") ? m.Rated : "") @((m.Genre != "N/A") ? m.Genre : "")</p>
+                            <p class="plot">@((m.Plot != "N/A") ? m.Plot : "")</p>
+                            <p class="metascore">@((m.Metascore != "N/A") ? "Metascore: " + m.Metascore : "")</p>
+                            @if (m.VideoUrl != null)
+                            {
+                                <iframe class="embed-responsive-item"
+                                        width="300"
+                                        src="@m.VideoUrl"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                            }
+                            <br />
+                            <a class="btn-primary" href="../User/AddFavorite?ImdbId=@m.ImdbId">Add To Favorites</a>
+                        </div>
+                    </div>
+                }
+
+            }
+        }
+
+
+        <div style="clear:left;height:100px;"></div>

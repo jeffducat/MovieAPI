@@ -1,0 +1,36 @@
+﻿@model List<MovieAPIProjectV2.Models.MovieDisplayContent>
+
+
+
+
+    @foreach (var movie in Model)
+    {
+    <div style="max-width:700px;height:auto;clear:left;padding:10px" id="ProductBox">
+        <h2>Movies</h2>
+        <div style="display:inline-block;float:left;padding:10px">
+            @if (movie.Poster != null)
+            {
+                <img src="@movie.Poster" />
+            }
+        </div>
+        <h3>@movie.Title</h3>
+
+        <p><a href="../User/RemoveFavorite?ImdbId=@movie.ImdbId">Remove</a></p>
+        <p>@movie.Year</p>
+        <p>@movie.Rated</p>
+        <p>@movie.Genre</p>
+        <p>Metascore: @movie.Metascore</p>
+        <p>@movie.Plot</p>
+        @if (movie.VideoUrl != null)
+        {
+            <iframe class="embed-responsive-item"
+                    width="300"
+                    src="@movie.VideoUrl"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+        }
+    </div>
+    }
+
+<div style="clear:left;height:100px;"></div>
